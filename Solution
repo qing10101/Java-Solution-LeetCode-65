@@ -1,0 +1,44 @@
+class Solution {
+    public boolean isNumber(String s) {
+        if(s.indexOf(".")!=s.lastIndexOf("."))
+        {
+            return false;
+        }
+        char fc=s.charAt(0);
+        if((fc<48||fc>57)&&fc!='+'&&fc!='-'&&fc!='.')
+        {
+            return false;
+        }
+        if((fc=='.'||fc=='-'||fc=='+')&&s.length()==1) return false;
+        boolean mustBeInt=false;
+        for(int i=1;i<s.length();i++)
+        {
+            char c=s.charAt(i);
+            char pc=s.charAt(i-1);
+            if(c<48||c>57)
+            {
+                if(c=='e'||c=='E')
+                {
+                    if((i==s.length()-1||pc=='-'||pc=='+'||(pc=='.'&&i==1)||mustBeInt)||(i>1&&pc=='.'&&(s.charAt(i-2)=='+'||s.charAt(i-2)=='-'))) return false;
+                    mustBeInt=true;
+                }
+                else if(c=='.')
+                {
+                    if(mustBeInt||((pc=='-'||pc=='+')&&i==s.length()-1))
+                    {
+                        return false;
+                    }
+                }
+                else if((c=='+'||c=='-'))
+                {
+                    if((pc!='e'&&pc!='E')||i==s.length()-1) return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
